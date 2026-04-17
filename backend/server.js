@@ -9,13 +9,7 @@ const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
-const HUGGINGFACE_API_KEY = process.env.HUGGINGFACE_API_KEY;
 const MONGODB_URI = process.env.MONGODB_URI;
-const DEFAULT_HUGGINGFACE_MODEL = 'gpt2';
-
-if (!HUGGINGFACE_API_KEY) {
-  throw new Error('HUGGINGFACE_API_KEY is required in .env file');
-}
 
 if (!MONGODB_URI) {
   throw new Error('MONGODB_URI is required in .env file');
@@ -148,10 +142,7 @@ app.get('/api/status', (req, res) => {
     backend: 'nodejs',
     port: PORT,
     timestamp: new Date().toISOString(),
-    mongodb: mongoStatus,
-    huggingface: {
-      configured: Boolean(HUGGINGFACE_API_KEY)
-    }
+    mongodb: mongoStatus
   });
 });
 
@@ -162,24 +153,6 @@ app.get('/api/db/status', (req, res) => {
 app.get('/api/placeholder', (req, res) => {
   res.json({
     message: 'This is a Node.js backend placeholder. The frontend is served from the static frontend folder.',
-  });
-});
-
-app.post('/api/huggingface', (req, res) => {
-  if (!HUGGINGFACE_API_KEY) {
-    return res.status(400).json({
-      error: 'HUGGINGFACE_API_KEY is not configured.',
-      hint: 'Add HUGGINGFACE_API_KEY to backend/.env or backend/.env.example.'
-    });
-  }
-
-  const prompt = req.body.prompt || '';
-  res.json({
-    configured: true,
-    model: DEFAULT_HUGGINGFACE_MODEL,
-    prompt,
-    output: `Placeholder Hugging Face output for model "${DEFAULT_HUGGINGFACE_MODEL}". Replace this with a real Hugging Face API call.`,
-    note: 'This route simulates Hugging Face API behavior without making an external request.'
   });
 });
 
