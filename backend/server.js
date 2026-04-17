@@ -9,9 +9,17 @@ const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
-const HUGGINGFACE_API_KEY = process.env.HUGGINGFACE_API_KEY || '';
-const MONGODB_URI = process.env.MONGODB_URI || '';
+const HUGGINGFACE_API_KEY = process.env.HUGGINGFACE_API_KEY;
+const MONGODB_URI = process.env.MONGODB_URI;
 const DEFAULT_HUGGINGFACE_MODEL = 'gpt2';
+
+if (!HUGGINGFACE_API_KEY) {
+  throw new Error('HUGGINGFACE_API_KEY is required in .env file');
+}
+
+if (!MONGODB_URI) {
+  throw new Error('MONGODB_URI is required in .env file');
+}
 
 const frontendPath = path.join(__dirname, '..', 'frontend');
 app.use(express.static(frontendPath));

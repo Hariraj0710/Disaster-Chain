@@ -43,6 +43,7 @@ npx vercel --prod
 4. Add environment variables in Render:
    - `MONGODB_URI` — your Atlas connection string, including the database name.
    - `HUGGINGFACE_API_KEY` — your Hugging Face API key.
+   - `PORT` — optional, defaults to 3000.
 5. Deploy the service.
 
 ### MongoDB Atlas setup
